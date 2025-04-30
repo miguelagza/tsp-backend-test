@@ -1,5 +1,5 @@
 import { before } from 'node:test';
-import { WorldGenerator } from './city-generator';
+import { WorldGenerator } from './world-generator';
 import { World, Bounds } from './world';
 import { City } from './city';
 
@@ -12,6 +12,8 @@ jest.mock('./world', () => {
             this.bounds = bounds;
             this.cities = [];
             this.addCity = (city: City) => Boolean(this.cities.push(city));
+            this.getWorld = () => this.world
+            this.getCities = () => this.cities
         }),
     };
 });
@@ -23,7 +25,7 @@ describe('WorldGenerator', () => {
         });
 
         it('should throw an error if the number of cities exceeds the bounds', () => {
-            expect(() => new WorldGenerator(200, bounds)).toThrowError(
+            expect(() => new WorldGenerator(200, bounds)).toThrow(
                 'Bounds aren’t big enough to fit 200 cities.',
             );
         });
@@ -46,7 +48,7 @@ describe('WorldGenerator', () => {
         });
 
         it('should generate the correct number of cities', () => {
-            expect(world.cities.length).toBe(NUM_OF_CITIES);
+            expect(world.getCities().length).toBe(NUM_OF_CITIES);
         });
     });
 

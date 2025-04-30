@@ -11,15 +11,15 @@ describe('World', () => {
     });
 
     it('should initialize with no cities', () => {
-        expect(world.cities).toEqual([]);
+        expect(world.getCities()).toEqual([]);
     });
 
     it('should add a city successfully', () => {
         const city = new City('A', { x: 1, y: 1 });
         const result = world.addCity(city);
         expect(result).toBe(true);
-        expect(world.cities.length).toBe(1);
-        expect(world.cities[0]).toBe(city);
+        expect(world.getCities().length).toBe(1);
+        expect(world.getCities()[0]).toBe(city);
     });
 
     it('should not add a city with a duplicate name', () => {
@@ -30,7 +30,7 @@ describe('World', () => {
         const result = world.addCity(city2);
 
         expect(result).toBe(false);
-        expect(world.cities.length).toBe(1);
+        expect(world.getCities().length).toBe(1);
     });
 
     it('should not add a city with the same coordinates', () => {
@@ -41,7 +41,7 @@ describe('World', () => {
         const result = world.addCity(city2);
 
         expect(result).toBe(false);
-        expect(world.cities.length).toBe(1);
+        expect(world.getCities().length).toBe(1);
     });
 
     it('should allow adding a city with different coordinates and name', () => {
@@ -52,7 +52,7 @@ describe('World', () => {
         const result = world.addCity(city2);
 
         expect(result).toBe(true);
-        expect(world.cities.length).toBe(2);
+        expect(world.getCities().length).toBe(2);
     });
 
     it('should not add a city if the number exceeds the world bounds', () => {

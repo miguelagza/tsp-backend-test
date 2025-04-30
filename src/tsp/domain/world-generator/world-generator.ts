@@ -10,11 +10,13 @@ export class WorldGenerator {
         private readonly numOfCities: number,
         private readonly bounds: Bounds,
     ) {
-        if (numOfCities > bounds.x * bounds.y) {
+        this.numOfCities = numOfCities
+        this.world = new World(this.bounds);
+
+        if (this.numOfCities > bounds.x * bounds.y) {
             throw new NumOfCitiesExceedWorldBoundsError(numOfCities);
         }
 
-        this.world = new World(this.bounds);
     }
 
     getWorld(): World {
@@ -31,6 +33,7 @@ export class WorldGenerator {
         const ALPHABET = this.generateAlphabet();
         const COORDINATES = this.generateCoordinates();
         this.world = new World(this.bounds);
+
 
         for (let i = 0; i < this.numOfCities; i++) {
             this.world.addCity(new City(ALPHABET[i], COORDINATES[i]));
@@ -79,11 +82,12 @@ export class WorldGenerator {
         const coordinatesSet: Coordinates[] = [];
 
         const spaceInX = this.fisherYatesShuffle(
-            Array.from({ length: this.world.bounds.x + 1 }, (_, i) => i),
+            Array.from({ length: this.world.bounds.x }, (_, i) => i),
         );
 
+
         const spaceInY = this.fisherYatesShuffle(
-            Array.from({ length: this.world.bounds.y + 1 }, (_, i) => i),
+            Array.from({ length: this.world.bounds.y }, (_, i) => i),
         );
 
         for (let i = 0; i < this.numOfCities; i++) {
@@ -109,6 +113,6 @@ export class WorldGenerator {
 
 class NumOfCitiesExceedWorldBoundsError extends Error {
     constructor(numOfCities: number) {
-        super(`World's bounds aren’t big enough to fit ${numOfCities} cities.`);
+        super(`Bounds aren’t big enough to fit ${numOfCities} cities.`);
     }
 }
